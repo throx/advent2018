@@ -15,22 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shared.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="day13.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="shared.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Text Include="test.txt" />
+    <Text Include="input.txt" />
+    <Text Include="test2.txt" />
   </ItemGroup>
 </Project>

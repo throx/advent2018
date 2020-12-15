@@ -11,7 +11,8 @@ struct Point
 {
     Point() : Point(0, 0) {};
     Point(int x, int y) : x(x), y(y) {};
-    bool operator<(const Point& other) const { return x < other.x || (x == other.x && y < other.y); }
+    bool operator<(const Point& other) const { return y < other.y || (y == other.y && x < other.x); }
+    bool operator==(const Point& other) const { return x == other.x && y == other.y; }
 
     void operator+=(const Point& other) { x += other.x; y += other.y; }
     void operator-=(const Point& other) { x -= other.x; y -= other.y; }
