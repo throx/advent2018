@@ -12,11 +12,21 @@ struct Point
     Point() : Point(0, 0) {};
     Point(int x, int y) : x(x), y(y) {};
     bool operator<(const Point& other) const { return x < other.x || (x == other.x && y < other.y); }
+
+    void operator+=(const Point& other) { x += other.x; y += other.y; }
+    void operator-=(const Point& other) { x -= other.x; y -= other.y; }
+
+    // Return 4 points adjacent
     std::vector<Point> Adj4() const;
+
+    // Return up to 4 points adjacent, culling to rect.
     std::vector<Point> Adj4(Rect bounds) const;
     int x;
     int y;
 };
+
+inline Point operator+(const Point& p1, const Point& p2) { Point t(p1); t += p2; return t; }
+inline Point operator-(const Point& p1, const Point& p2) { Point t(p1); t -= p2; return t; }
 
 inline int mdist(const Point& p1, const Point& p2)
 {
@@ -27,6 +37,19 @@ struct Rect {
     Rect() : Rect(0, 0, 0, 0) {};
     Rect(int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {};
     Rect(const Point& p1, const Point& p2) : x(std::min(p1.x, p2.x)), y(std::min(p1.y, p2.y)), w(abs(p1.x - p2.x)), h(abs(p1.y - p2.y)) {};
+    template<class fwdit> Rect(fwdit begin, fwdit end)
+    {
+        if (begin == end) {
+            x = 0; y = 0; w = 0; h = 0; return;
+        }
+        x = begin->x;
+        y = begin->y;
+        ++begin;
+        while (begin != end) {
+            Expand(*begin);
+            ++begin;
+        }
+    }
     bool operator<(const Rect& other) const
     {
         if (x < other.x) return true;
