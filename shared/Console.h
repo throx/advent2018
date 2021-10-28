@@ -117,35 +117,39 @@ namespace JHC
             WORD oldc = csbi.dwSize.X;
             WORD oldr = csbi.dwSize.Y;
             COORD newSize = { (SHORT)cols, (SHORT)rows };
-            SMALL_RECT rect = { 0, 0, cols - 1, rows - 1 };
+            SMALL_RECT rect = { 0, 0, min(csbi.dwMaximumWindowSize.X, cols) - 1, min(csbi.dwMaximumWindowSize.Y, rows) - 1 };
 
             if (oldr <= rows)
             {
                 if (oldc <= cols)
                 {                           // increasing both dimensions
-                BUFWIN:
                     SetConsoleScreenBufferSize(hCon, newSize);
                     SetConsoleWindowInfo(hCon, TRUE, &rect);
                 }
                 else
                 {                           // cols--, rows+
-                    SMALL_RECT tmp = { 0, 0, cols - 1, oldr - 1 };
+                    SMALL_RECT tmp = { 0, 0, min(csbi.dwMaximumWindowSize.X, cols) - 1, min(csbi.dwMaximumWindowSize.Y, oldr) - 1 };
                     SetConsoleWindowInfo(hCon, TRUE, &tmp);
-                    goto BUFWIN;
+                    SetConsoleScreenBufferSize(hCon, newSize);
+                    SetConsoleWindowInfo(hCon, TRUE, &rect);
                 }
             }
             else
             {
                 if (oldc <= cols)
                 {                           // cols+, rows--
-                    SMALL_RECT tmp = { 0, 0, oldc - 1, rows - 1 };
+                    SMALL_RECT tmp = { 0, 0, min(csbi.dwMaximumWindowSize.X, oldc) - 1, min(csbi.dwMaximumWindowSize.X, rows) - 1 };
                     SetConsoleWindowInfo(hCon, TRUE, &tmp);
-                    goto BUFWIN;
+                    SetConsoleScreenBufferSize(hCon, newSize);
+                    GetInfo();
+                    rect = { 0, 0, min(csbi.dwMaximumWindowSize.X, cols) - 1, min(csbi.dwMaximumWindowSize.Y, rows) - 1 };
+                    SetConsoleWindowInfo(hCon, TRUE, &rect);
                 }
                 else
                 {                           // cols--, rows--
                     SetConsoleWindowInfo(hCon, TRUE, &rect);
                     SetConsoleScreenBufferSize(hCon, newSize);
+                    SetConsoleWindowInfo(hCon, TRUE, &rect);
                 }
             }
             GetInfo();
