@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <set>
+#include <map>
 
 template<int N> class Point : public std::vector<__int64> {
 public:
@@ -86,3 +87,36 @@ typedef Point<2> Point2;
 typedef Point<3> Point3;
 typedef Point<4> Point4;
 
+namespace P2
+{
+    const Point2 N({ 0, -1 });
+    const Point2 S({ 0, 1 });
+    const Point2 W({ -1, 0 });
+    const Point2 E({ 1, 0 });
+
+    const Point2 U({ 0, -1 });
+    const Point2 D({ 0, 1 });
+    const Point2 L({ -1, 0 });
+    const Point2 R({ 1, 0 });
+
+    std::map<char, Point2> DIRS(
+        {
+            {'N', N},
+            {'S', S},
+            {'W', W},
+            {'E', E},
+            {'n', N},
+            {'s', S},
+            {'w', W},
+            {'e', E},
+            {'U', U},
+            {'D', D},
+            {'L', L},
+            {'R', R},
+            {'u', U},
+            {'d', D},
+            {'l', L},
+            {'r', R},
+        }
+    );
+}
